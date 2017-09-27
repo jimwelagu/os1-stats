@@ -1,1 +1,27 @@
 #!/bin/bash
+
+if [[ "$1" == -r* ]]
+then
+	echo Average
+
+	while read line
+	do
+		sum=0
+		rows=0
+		
+		for number in $line
+		do
+			sum=$(expr $sum + $number)
+			rows=$(expr $rows + 1)
+		done
+		
+		echo "$(expr $sum / $rows)"	#FIX: Must round
+			
+	done < $2
+
+elif [[ "$1" == -c* ]]
+then
+	echo col
+
+	
+fi
