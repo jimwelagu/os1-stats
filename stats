@@ -21,7 +21,34 @@ then
 
 elif [[ "$1" == -c* ]]
 then
-	echo col
+	echo Average
 
+	rows=$(cat $2 | wc -l)
+	cols=0
+	i=1
+	sum=0
+	
+	read line < $2
+	cols=$(echo $line | wc -w)
+	(( cols++ ))	
+	
+	while test $i -ne $cols
+	do
+		cut -f $i $2 > TMP 
+
+		while read num 
+		do 
+			#echo sum: $sum
+			#echo num: $num
+			sum=$(expr $sum + $num)
+		done < TMP		
+
+		echo "$(expr $sum / $rows)"
+		
+		sum=0
+		i=$(expr $i + 1)
+		curr_col=$(expr $curr_col + 1)
+	
+	done	
 	
 fi
