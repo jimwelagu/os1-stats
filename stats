@@ -3,19 +3,20 @@
 if [[ "$1" == -r* ]]
 then
 	echo Average
-
+	
+	# Reads every line in file until end of file
 	while read line
 	do
-		sum=0
-		rows=0
+		sum=0	# Initialize sum that will be updated for each line
+		n=0 # total amount of numbers in a row
 		
 		for number in $line
 		do
 			sum=$(expr $sum + $number)
-			rows=$(expr $rows + 1)
+			n=$(expr $n + 1)
 		done
-		
-		echo "$(expr $sum / $rows)"	#FIX: Must round
+
+		echo "$(expr $sum / $n)"	#FIX: Must round
 			
 	done < $2
 
