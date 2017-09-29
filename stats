@@ -38,12 +38,10 @@ then
 
 		while read num 
 		do 
-			#echo sum: $sum
-			#echo num: $num
 			sum=$(expr $sum + $num)
 		done < TMP		
 
-		echo "$(expr $sum / $rows)"
+		echo "$(expr $sum / $rows)" #FIX: MUST ROUND CORRECTLY
 		
 		sum=0
 		i=$(expr $i + 1)
