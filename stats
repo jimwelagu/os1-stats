@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [ $# -ne 2 ]
+then
+	printf "./stats {-rows|-cols} [input_file]\n"
+	exit $?
+fi
+
 if [[ "$1" == -r* ]]
 then
 	printf "Average\tMedian\n"
