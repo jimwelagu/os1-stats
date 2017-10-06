@@ -1,10 +1,16 @@
 #!/bin/bash
 
-if [ $# -ne 2 ]
+if [ $# -ne 2 ] 
 then
-	printf "./stats {-rows|-cols} [input_file]\n"
-	exit $?
+	printf "./stats {-rows|-cols} [input_file]\n" 1>&2
+	exit 1
 fi
+
+if [ ! -e $2 ]
+then
+	echo "./stats: cannot read $2" 1>&2
+	exit 1
+fi	
 
 if [[ "$1" == -r* ]]
 then
@@ -18,6 +24,8 @@ then
 		TMP="temp$$" # TMP stores a temporary file name with PID
 		median=0 # Median
 		mean=0 # Mean
+
+		trap "rm -f $TMP; echo 'CTRL+C recieved, exiting'; exit 1" SIGINT
 
 		for number in $line
 		do
@@ -48,9 +56,10 @@ then
 	cols=0
 	i=1
 	sum=0
-
 	mean=0
 	median=0
+
+	trap "rm -f $TMP $avgtmp $medtmp; echo 'CTRL+C recieved, exiting'; exit 1" SIGINT
 
 	read line < $2
 	cols=$(echo $line | wc -w)
@@ -100,5 +109,7 @@ then
 	printf "\n"
 
 	rm $avgtmp $medtmp
-
+else 
+	printf "./stats {-rows|-cols} [input_file]\n" 1>&2
+	exit 1
 fi
